@@ -1,20 +1,11 @@
-class ExcecaoCustomizada(Exception):
-    pass
+veiculos = ['aviao', 'carro', 'barco', 'moto']
 
-def checa_valor(valor):
-    if valor < 0:
-        raise ExcecaoCustomizada("Valor não pode ser negativo!")
+f_maiuculas = lambda x: str.upper(x)
+#a função str upper serve para converter em maiúsculos com a função lambda
 
-def divide(a, b):
-    return a / b
+nomes_maiusculas = list(map(f_maiuculas, veiculos))
+#map utilizado para aplicar a função f_maiuculas em cada elemento da lista veiculos
 
+print(f'nomes maiusculas: {nomes_maiusculas}')
 
-try:
-    resultado = divide(10, 0)
-except ZeroDivisionError as ex:
-    print(f"Erro de divisão por zero: {ex}")
-
-try:
-    checa_valor(-10)
-except ExcecaoCustomizada as ex:
-    print(f"Exceção personalizada lançada: {ex}")
+lista = [0,1,1,2,3,5,8,13,21,34,55]
