@@ -8,7 +8,7 @@ def home():
 
 @app.route("/ola/")
 @app.route("/ola/<nome>")
-def ola(nome=None):
+def ola(nome="mundo"):
   if nome:
     return f"<h1>Ola, {nome}!</h1>"
   return "<h1>Ola, mundo!</h1>"

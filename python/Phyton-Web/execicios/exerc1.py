@@ -12,7 +12,7 @@ def cumprimento():
 @app.route('/user/<nome>')
 def user (nome="Usuario"):
     personalizar = f"<h1>Bem-vindo, {nome}!</h1>"
-    instruçao = '<p>Adicione seu nome na URL para uma saudação personalizada.</p>'
+    instruçao = '<p>Adicione seu nome na URL para uma saudação personalizada e recarregue a pagina.</p>'
     return personalizar + instruçao
   
 if __name__ == "__main__":
