@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordenando Valores</title>
+    <script src="ordenando.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 400px;
+        }
+        input, select, button {
+            margin-bottom: 10px;
+            padding: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ordenando Valores</h1>
+        <label for="valor">Valor</label>
+        <input type="number" id="valor">
+        <button onclick="add()">Adicionar</button>
+        <hr>
+        
+        <select id="algoritmo">
+            <option value="bubble" selected>Bubble Sort</option>
+            <option value="selection">Selection Sort</option>
+            <option value="quick">Quick Sort</option>
+        </select>
+        
+        <div style="display: flex; gap: 10px;">
+            <button onclick="ordenar()">Ordenar</button>
+            <button onclick="misturar()">Misturar</button>
+        </div>
+        <hr>
+        
+        <ul id="valores"></ul>
+    </div>
+
+    <script>
+        function add() {
+            // a) Capturar o campo de entrada com id valor via getElementById
+            var inputValor = document.getElementById("valor");
+            
+            if (inputValor.value === "") {
+                alert("O campo de valor não pode estar vazio!");
+                return;
+            }
+            
+            // b) Capturar a lista com id valores
+            var listaValores = document.getElementById("valores");
+            
+            // c) Criar uma variável node, com um elemento li definido via createElement
+            var node = document.createElement("li");
+            
+            // d) Definir um nó de texto, com o valor do campo de entrada, e incluí-lo como filho de node
+            var textNode = document.createTextNode(inputValor.value);
+            node.appendChild(textNode);
+            
+            // e) Adicionar o elemento node à lista valores
+            listaValores.appendChild(node);
+            
+            // Limpa o input após adicionar para facilitar
+            inputValor.value = "";
+        }
+
+        function ordenar() {
+            // a) Capturar a lista de valores e a lista de seleção via getElementById
+            var listaValores = document.getElementById("valores");
+            var listaSelecao = document.getElementById("algoritmo");
+            
+            // b) Através do atributo children, obter cada nó da lista de valores e adicionar o conteúdo
+            var vetor = [];
+            for (var i = 0; i < listaValores.children.length; i++) {
+                // c) Os conteúdos podem ser obtidos via innerHTML e convertidos com eval
+                vetor.push(eval(listaValores.children[i].innerHTML));
+            }
+            
+            // d) Escolher o algoritmo de ordenação adequado, a partir do selectedIndex
+            var selectedIndex = listaSelecao.selectedIndex;
+            
+            if (selectedIndex === 0) {
+                bubble_sort(vetor);
+            } else if (selectedIndex === 1) {
+                selection_sort(vetor);
+            } else if (selectedIndex === 2) {
+                quick_sort(vetor, 0, vetor.length - 1);
+            }
+            
+            // e) Utilizar os operadores map e reduce, do vetor, para gerar os novos itens
+            listaValores.innerHTML = vetor.map(function(item) {
+                return "<li>" + item + "</li>";
+            }).reduce(function(acc, curr) {
+                return acc + curr;
+            }, "");
+        }
+
+        function misturar() {
+            // a) Capturar a lista de valores via getElementById
+            var listaValores = document.getElementById("valores");
+            
+            // b) Através do atributo children, obter cada nó da lista de valores
+            var vetor = [];
+            for (var i = 0; i < listaValores.children.length; i++) {
+                // c) Os conteúdos podem ser obtidos via innerHTML e convertidos com eval
+                vetor.push(eval(listaValores.children[i].innerHTML));
+            }
+            
+            // d) Aplicar a função shuffle ao vetor
+            shuffle(vetor, vetor.length * 3); // 3 vezes o tamanho para embaralhar bem
+            
+            // e) Utilizar os operadores map e reduce, do vetor, para gerar os novos itens
+            listaValores.innerHTML = vetor.map(function(item) {
+                return "<li>" + item + "</li>";
+            }).reduce(function(acc, curr) {
+                return acc + curr;
+            }, "");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Receitas</title>
+    <!-- Importação do CSS do Bootstrap via CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Estilização extra para o cabeçalho ficar elegante */
+        h1 {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-warning" onload="preencheCatalogo()">
+
+    <div class="container-fluid">
+        <!-- Cabeçalho Principal -->
+        <h1 class="text-center my-5 fw-bold text-dark">Catálogo de Receitas</h1>
+
+        <!-- Contêiner para os cards com classes de flexbox do Bootstrap -->
+        <div id="pnlCatalogo" class="d-flex flex-wrap justify-content-center gap-4 p-4">
+            <!-- Os cards gerados serão injetados aqui via JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Vetor de Dados JSON contendo 3 receitas
+        const receitas = [
+            {
+                titulo: "Panqueca de Aveia",
+                imagem: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=400&q=80",
+                preparo: "Misture todos os ingredientes no liquidificador. Aqueça uma frigideira untada, despeje a massa e doure dos dois lados.",
+                ingredientes: ["1 xícara de aveia", "1 xícara de leite", "1 ovo", "Sal a gosto"]
+            },
+            {
+                titulo: "Bolo de Cenoura",
+                imagem: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=400&q=80",
+                preparo: "Bata a cenoura, óleo, ovos e açúcar. Junte a farinha e o fermento. Asse a 180°C por 40 minutos.",
+                ingredientes: ["3 cenouras", "3 ovos", "1 xícara de óleo", "2 xícaras de açúcar", "2 xícaras de farinha", "1 colher de fermento"]
+            },
+            {
+                titulo: "Salada Tropical",
+                imagem: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=400&q=80",
+                preparo: "Corte todas as frutas e vegetais e misture em um bowl grande. Tempere com limão, azeite e sal a gosto.",
+                ingredientes: ["Alface americana", "Manga em cubos", "Tomate cereja", "Cebola roxa", "Azeite, sal e limão"]
+            }
+        ];
+
+        // Função para obter a lista de ingredientes em formato HTML
+        function getListaIngredientes(receita) {
+            // Uso obrigatório de .map() para criar as tags <li> e .reduce() para concatenar
+            let listaHTML = receita.ingredientes
+                .map(ingrediente => `<li>${ingrediente}</li>`)
+                .reduce((acumulador, itemAtual) => acumulador + itemAtual, "");
+            
+            // Retorna a lista completa com as tags <ul> envolvendo os itens
+            return `<ul>${listaHTML}</ul>`;
+        }
+
+        // Função para montar o card de cada receita usando Template Literals
+        function getCard(receita) {
+            // O retorno é uma string HTML construída com crases
+            return `
+                <div class="card shadow-sm rounded-4" style="width: 250px;">
+                    <img src="${receita.imagem}" class="card-img-top rounded-top-4" alt="${receita.titulo}" style="height: 180px; object-fit: cover;">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title fw-bold text-center">${receita.titulo}</h5>
+                        <div class="card-text flex-grow-1">
+                            ${getListaIngredientes(receita)}
+                            <hr>
+                            <p class="mb-0 text-muted" style="font-size: 0.9em;">${receita.preparo}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Função para preencher o painel com as receitas
+        function preencheCatalogo() {
+            // Captura o elemento contêiner
+            const pnlCatalogo = document.getElementById("pnlCatalogo");
+
+            // Uso obrigatório de .map() para aplicar getCard e .reduce() para concatenar
+            const htmlCards = receitas
+                .map(receita => getCard(receita))
+                .reduce((acumulador, cardAtual) => acumulador + cardAtual, "");
+
+            // Atribui a string final HTML ao contêiner pnlCatalogo
+            pnlCatalogo.innerHTML = htmlCards;
+        }
+    </script>
+</body>
+</html>
